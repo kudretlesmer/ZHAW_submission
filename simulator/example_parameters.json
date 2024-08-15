@@ -1,0 +1,67 @@
+{
+    # Sampling rate and error covariance matrix definition
+    'fs': 1,  # 1 samples per second
+
+    'number_of_agents': 100,
+
+    # Weight factor definition
+    # Weight for speed smoothing to control the influence of previous speed on the current speed
+    'weight_factor': 0.9,
+
+    # Mean vector for GPS error
+    'Uxy': [0, 0],  # Mean vector for x and y GPS errors (assuming no bias)
+
+    # Covariance matrix for GPS error
+    # x and y are uncorrelated having a variance of 2 meters (standard deviation 2 meters)
+    # Covariance matrix (4 meters^2 variance in x and y), indicating independent errors
+    'Cxy': [[4, 0], [0, 4]],
+
+    # Define the different states
+    # Behavioral states: First 3 are normal, last one is anomalous
+    'states': ['Grazing', 'Resting', 'foraging', 'Fleeing'],
+
+    # Initial state probabilities
+    'initial_state_probabilities': {
+        'Grazing': 0.5,    # 50% chance to start in Grazing state
+        'Resting': 0.5,    # 50% chance to start in Resting state
+        'foraging': 0.0,  # 0% chance to start in foraging state
+        'Fleeing': 0.0     # 0% chance to start in Fleeing state
+    },
+
+    # State transition matrix
+    # Rows: current state, Columns: next state
+    'state_transition_matrix': {
+        # Probabilities of transitioning from Grazing to [Grazing, Resting, foraging, Fleeing]
+        'Grazing': [0.89999, 0.05, 0.05, 0.00001],
+        # Probabilities of transitioning from Resting to [Grazing, Resting, foraging, Fleeing]
+        'Resting': [0.05, 0.89999, 0.05, 0.00001],
+        # Probabilities of transitioning from foraging to [Grazing, Resting, foraging, Fleeing]
+        'foraging': [0.05, 0.05, 0.89999, 0.00001],
+        # Probabilities of transitioning from Fleeing to [Grazing, Resting, foraging, Fleeing]
+        'Fleeing': [0.0003, 0.0003, 0.0003, 0.9991]
+    },
+
+    # Parameters for each state
+    'state_parameters': {
+        'Grazing': {
+            'speed': (0.1, 0.5),  # Speed range in meters per second
+            # Turning angle range (uniform distribution) since it is not directed
+            'turning_angle': (-180, 180),
+        },
+        'Resting': {
+            'speed': (0, 0.5),  # Speed range in meters per second
+            # Turning angle range (uniform distribution) since it is not directed
+            'turning_angle': (-180, 180),
+        },
+        'foraging': {
+            'speed': (0.5, 1.5),  # Speed range in meters per second
+            # Turning angle mean and standard deviation in degrees (Gaussian distribution)
+            'turning_angle': (0, 20),
+        },
+        'Fleeing': {
+            'speed': (1.5, 3),  # Speed range in meters per second
+            # Turning angle mean and standard deviation in degrees (Gaussian distribution)
+            'turning_angle': (0, 5),
+        }
+    }
+}
