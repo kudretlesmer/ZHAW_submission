@@ -23,8 +23,8 @@ model.load_state_dict(torch.load('app/model.pth'))
 model.eval()
 
 # Load the mean and std for normalization
-mean_ = np.array([[14.99986662, 46.95354183]])  # Replace with the exact values
-std_ = np.array([[2.99375461e-05, 1.97048753e-05]])  # Replace with the exact values
+mean_ = np.array([[14.99986528, 46.95354283]])  # Replace with the exact values
+std_ = np.array([[2.97406641e-05, 1.96748126e-05]])  # Replace with the exact values
 
 @app.post("/")
 def read_root(payload: Any = Body(None)):
@@ -82,4 +82,4 @@ def read_root(payload: Any = Body(None)):
         if mean_mse > ANOMALY_THRESHOLD:
             print(f"Anomaly detected for ID {id_} with mean MSE: {mean_mse}, true_label {payload['state']}")
 
-    return {"status": "success"}
+    return #{"status": "success"}
