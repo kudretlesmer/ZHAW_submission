@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: inferencer
+  labels:
+    app: inferencer
+spec:
+  # replicas: 3
+  selector:
+    matchLabels:
+      app: inferencer
+  template:
+    metadata:
+      labels:
+        app: inferencer
+    spec:
+      containers:
+      - name: inferencer
+        image: kudretesmer/inferencer:latest
+        ports:
+        - containerPort: 8000
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "500m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"

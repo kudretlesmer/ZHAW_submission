@@ -1,0 +1,13 @@
+services:
+  simulator:
+    container_name: simulator
+    build: simulator
+    ports:
+      - 8000:8000
+  inferencer:
+    container_name: inferencer
+    build: inferencer 
+    ports:
+      - 8001:8000
+    depends_on:
+      - simulator
